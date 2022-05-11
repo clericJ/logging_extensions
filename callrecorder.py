@@ -1,3 +1,10 @@
+import contextlib
+import functools
+import logging
+import types
+from threading import Lock
+from typing import Callable
+
 
 @contextlib.contextmanager
 def _replace_log_record_factory(new: Callable):
