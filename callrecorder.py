@@ -70,12 +70,12 @@ class CallRecorder:
 
             parameters = ', '.join(str(param) for param in parameters) if parameters else ''
             with CallRecorder._lock, _replace_log_record_factory(new_factory):
-                self.log.debug(f'-> ({parameters!r})')
+                self.log.info(f'-> ({parameters!r})')
 
             result = func(*args, **kwargs)
 
             with CallRecorder._lock, _replace_log_record_factory(new_factory):
-                self.log.debug(f'<- {result!r}')
+                self.log.info(f'<- {result!r}')
 
             return result
         return wrapper
