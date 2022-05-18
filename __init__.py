@@ -1,3 +1,3 @@
-from .extensions import dummyLogger, setup_root_logger_format, LevelFilter
-from .inspectable import Inspectable
-from .callrecorder import CallRecorder
+from logging_extensions.extensions import dummyLogger, setup_root_logger_format, LevelFilter
+from logging_extensions.inspectable import Inspectable
+from logging_extensions.callrecorder import CallRecorder
