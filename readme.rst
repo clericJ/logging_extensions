@@ -36,7 +36,6 @@ Mixin-class need for detailed representation inherited classes.
     ...    @classmethod
     ...    def cls_method(cls):
     ...        pass
-
     ...    @staticmethod
     ...    def static_methoddddddddddddd():
     ...        pass
@@ -47,7 +46,6 @@ Mixin-class need for detailed representation inherited classes.
     ...        self.a = 1
     ...        self._big_private_name = True
     ...        self.number = 10
-
     ...    def method(self):
     ...        self.var = -1
     ...
