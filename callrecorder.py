@@ -5,7 +5,7 @@ import types
 from threading import Lock
 from typing import Callable
 
-from logging_extensions import setup_default_log
+from logging_extensions import setup_root_logger_format
 
 
 @contextlib.contextmanager
@@ -42,7 +42,7 @@ class CallRecorder:
         :param logger_object: logger for write
 
         Example(doctest):
-        >>> setup_default_log()
+        >>> setup_root_logger_format()
         >>> log = logging.getLogger('test')
         >>> @CallRecorder(log)
         ... def doc_test1(arg, arg2, arg3, arg4):

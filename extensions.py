@@ -6,7 +6,7 @@ dummyLogger = logging.getLogger('Dummy')
 dummyLogger.addHandler(logging.NullHandler())
 
 
-def setup_default_log(level=logging.INFO):
+def setup_root_logger_format(level=logging.INFO):
     """
     :param level: logging level.
     """

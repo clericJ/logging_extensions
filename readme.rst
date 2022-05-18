@@ -9,6 +9,7 @@ Decorator logging call parameters and function return value.
 
 .. code-block:: python
 
+        >>> from logging_extensions import CallRecorder
         >>> log = logging.getLogger('test')
         >>> @CallRecorder(log)
         ... def doc_test1(arg, arg2, arg3, arg4):
@@ -25,6 +26,7 @@ Mixin-class need for detailed representation inherited classes.
 
 .. code-block:: python
 
+    >>> from logging_extensions import Inspectable
     >>> class TT(Inspectable):
     ...    __multiline_repr__ = True
     ...    __include_methods__ = True
@@ -71,6 +73,14 @@ A filter that accepts one or more logging levels in the constructor, all levels 
 
 .. code-block:: python
 
-    >>> sh_out = logging.StreamHandler(sys.stdout)
-    >>> sh_out.addFilter(LevelFilter(logging.INFO))
+    >>> from logging_extensions import LevelFilter, setup_root_logger_format
+    >>> setup_root_logger_format(logging.DEBUG)
+    >>> log = logging.getLogger(__name__)
+    >>> log.addFilter(LevelFilter(logging.DEBUG, logging.ERROR))
+    >>> log.debug('debug message')
+    [2022-05-18 16:45:39 +0300][14980][ERROR][__main__.<module>: 1] : debug message
+    >>> log.info('info message')
+    >>> log.warning('warning message')
+    >>> log.error('error message')
+    [2022-05-18 16:45:51 +0300][14980][ERROR][__main__.<module>: 1] : error message
 
