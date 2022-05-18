@@ -5,6 +5,8 @@ import types
 from threading import Lock
 from typing import Callable
 
+from logging_extensions import setup_default_log
+
 
 @contextlib.contextmanager
 def _replace_log_record_factory(new: Callable):
@@ -40,12 +42,14 @@ class CallRecorder:
         :param logger_object: logger for write
 
         Example(doctest):
+        >>> setup_default_log()
         >>> log = logging.getLogger('test')
         >>> @CallRecorder(log)
-        ... def doc_test1(arg, arg2):
+        ... def doc_test1(arg, arg2, arg3, arg4):
         ...     return arg2
-        >>> doc_test1(1, 2)
-        2
+
+        >>> doc_test1(Callable,'bar', arg3=True, arg4='test')
+        'bar'
         """
         self.log = logger_object
 
@@ -63,14 +67,13 @@ class CallRecorder:
 
         @functools.wraps(func)
         def wrapper(*args, **kwargs) -> Callable:
-            parameters = []
-            parameters.extend(args)
-            for k, v in kwargs.items():
-                parameters.append(f'{k}={v}')
+            parameters = [repr(param) if isinstance(param, str) else str(param) for param in args]
 
-            parameters = ', '.join(str(param) for param in parameters) if parameters else ''
+            for k, v in kwargs.items():
+                parameters.append(f'{k}={v!r}')
+
             with CallRecorder._lock, _replace_log_record_factory(new_factory):
-                self.log.info(f'-> ({parameters!r})')
+                self.log.info(f'-> ({", ".join(parameters)})')
 
             result = func(*args, **kwargs)
 
@@ -79,3 +82,12 @@ class CallRecorder:
 
             return result
         return wrapper
+
+
+# setup_default_log()
+# log = logging.getLogger('test')
+# @CallRecorder(log)
+# def doc_test1(arg, arg2, arg3, arg4):
+#     return arg2
+#
+# doc_test1(Callable,'bar', arg3=True, arg4='test')

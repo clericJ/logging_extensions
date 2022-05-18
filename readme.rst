@@ -5,21 +5,25 @@ logging_extensions
 
 Decorator logging call parameters and function return value.
 
-*example*::
+*example*:
+
+.. code-block:: python
 
         >>> log = logging.getLogger('test')
         >>> @CallRecorder(log)
-        ... def doc_test1(arg, arg2):
+        ... def doc_test1(arg, arg2, arg3, arg4):
         ...     return arg2
-        >>> doc_test1(1, 2)
-        [2022-05-11 14:15:13 +0300][2696][DEBUG][test.doc_test1: 1] : -> ('10, bar')
-        [2022-05-11 14:15:13 +0300][2696][DEBUG][test.doc_test1: 1] : <- 'bar'
+        >>> doc_test1(Callable,'bar', arg3=True, arg4='test')
+        [2022-05-18 09:58:45 +0300][16396][INFO][test.doc_test1: 1] : -> (typing.Callable, 'bar', arg3=True, arg4='test')
+        [2022-05-18 09:58:45 +0300][16396][INFO][test.doc_test1: 1] : <- 'bar'
 
 **Inspectable**
 
 Mixin-class need for detailed representation inherited classes.
 
-*example*::
+**example:**
+
+.. code-block:: python
 
     >>> class TT(Inspectable):
     ...    __multiline_repr__ = True
@@ -63,7 +67,9 @@ Mixin-class need for detailed representation inherited classes.
 
 A filter that accepts one or more logging levels in the constructor, all levels not included in the filter will be discarded.
 
-*example*::
+*example*:
+
+.. code-block:: python
 
     >>> sh_out = logging.StreamHandler(sys.stdout)
     >>> sh_out.addFilter(LevelFilter(logging.INFO))
