@@ -82,12 +82,3 @@ class CallRecorder:
 
             return result
         return wrapper
-
-
-# setup_default_log()
-# log = logging.getLogger('test')
-# @CallRecorder(log)
-# def doc_test1(arg, arg2, arg3, arg4):
-#     return arg2
-#
-# doc_test1(Callable,'bar', arg3=True, arg4='test')

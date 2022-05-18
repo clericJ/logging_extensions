@@ -21,7 +21,7 @@ Decorator logging call parameters and function return value.
 
 Mixin-class need for detailed representation inherited classes.
 
-**example:**
+*example:*
 
 .. code-block:: python
 
