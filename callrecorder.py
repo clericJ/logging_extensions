@@ -36,22 +36,22 @@ class CallRecorder:
 
     _lock = Lock()
 
-    def __init__(self, logger_object: logging.Logger):
+    def __init__(self, recorder: Callable):
         """ Decorator logging call parameters and function return value.
 
-        :param logger_object: logger for write
+        :param recorder: callable object
 
         Example(doctest):
         >>> setup_root_logger_format()
         >>> log = logging.getLogger('test')
-        >>> @CallRecorder(log)
+        >>> @CallRecorder(log.info)
         ... def doc_test1(arg, arg2, arg3, arg4):
         ...     return arg2
 
         >>> doc_test1(Callable,'bar', arg3=True, arg4='test')
         'bar'
         """
-        self.log = logger_object
+        self.recorder = recorder
 
     def __call__(self, func: [types.FunctionType, types.MethodType]) -> Callable:
         def new_factory(*args, **kwargs) -> logging.LogRecord:
@@ -73,12 +73,12 @@ class CallRecorder:
                 parameters.append(f'{k}={v!r}')
 
             with CallRecorder._lock, _replace_log_record_factory(new_factory):
-                self.log.info(f'-> ({", ".join(parameters)})')
+                self.recorder(f'-> ({", ".join(parameters)})')
 
             result = func(*args, **kwargs)
 
             with CallRecorder._lock, _replace_log_record_factory(new_factory):
-                self.log.info(f'<- {result!r}')
+                self.recorder(f'<- {result!r}')
 
             return result
         return wrapper

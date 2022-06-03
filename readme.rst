@@ -13,7 +13,7 @@ Decorator logging call parameters and function return value.
         >>> from logging_extensions import CallRecorder, setup_root_logger_format
         >>> setup_root_logger_format(logging.INFO)
         >>> log = logging.getLogger('test')
-        >>> @CallRecorder(log)
+        >>> @CallRecorder(log.info)
         ... def doc_test1(arg, arg2, arg3, arg4):
         ...     return arg2
         >>> doc_test1(list,'bar', arg3=True, arg4='test')
