@@ -53,14 +53,14 @@ Mixin-class need for detailed representation inherited classes.
     >>> t.method()
     >>> t
     <instance of __main__.TT inherits from (logging_extensions.inspectable.Inspectable)>
-    ID: 0x2b7e19d57e0
+    ID: 0x2c0f8c2c550
     (Inspector:                 <class 'logging_extensions.inspectable.Inspectable.Inspector'>
     a:                         1
     class_attr:                23.43
-    cls_method:                <classmethod(<function _test_inspectable.<locals>.TT.cls_method at 0x000002B7E1E19A20>)>
-    method:                    <function _test_inspectable.<locals>.TT.method at 0x000002B7E1F4C790>
+    cls_method:                <classmethod(<function TT.cls_method at 0x...>)>
+    method:                    <function TT.method at 0x...>
     number:                    10
-    static_methoddddddddddddd: <staticmethod(<function _test_inspectable.<locals>.TT.static_methoddddddddddddd at 0x000002B7E1F4C550>)>
+    static_methoddddddddddddd: <staticmethod(<function TT.static_methoddddddddddddd at 0x...>)>
     string:                    'abc'
     var:                       -1
     _big_private_name:         True)

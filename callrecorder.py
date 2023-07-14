@@ -36,9 +36,10 @@ class CallRecorder:
 
     _lock = Lock()
 
-    def __init__(self, recorder: Callable):
+    def __init__(self, recorder: Callable, hide: list = ('password',)):
         """ Decorator logging call parameters and function return value.
 
+        :param hide: list of variable names whose values will be hidden from the output
         :param recorder: callable object
 
         Example(doctest):
@@ -51,6 +52,7 @@ class CallRecorder:
         >>> doc_test1(Callable,'bar', arg3=True, arg4='test')
         'bar'
         """
+        self.hide = hide
         self.recorder = recorder
 
     def __call__(self, func: [types.FunctionType, types.MethodType]) -> Callable:
@@ -68,17 +70,18 @@ class CallRecorder:
         @functools.wraps(func)
         def wrapper(*args, **kwargs) -> Callable:
             parameters = [repr(param) if isinstance(param, str) else str(param) for param in args]
+            name = getattr(func, '__name__', '<undefined>')
 
             for k, v in kwargs.items():
-                parameters.append(f'{k}={v!r}')
+                parameters.append(f'{k}=<...>' if k in self.hide else f'{k}={v!r}')
 
             with CallRecorder._lock, _replace_log_record_factory(new_factory):
-                self.recorder(f'-> ({", ".join(parameters)})')
+                self.recorder(f'{name} -> ({", ".join(parameters)})')
 
             result = func(*args, **kwargs)
 
             with CallRecorder._lock, _replace_log_record_factory(new_factory):
-                self.recorder(f'<- {result!r}')
+                self.recorder(f'{name} <- {result!r}')
 
             return result
         return wrapper

@@ -49,9 +49,10 @@ class Inspectable:
 
         @staticmethod
         def get_attributes(cls) -> set[tuple]:
+            # FIXME: падает тут из-за того что не может хешировать атрибуты объекта
             attributes = set(cls.__dict__.items())
-            for cls in cls.__mro__:
-                attributes.update(cls.__dict__.items())
+            for x in cls.__mro__:
+                attributes.update(x.__dict__.items())
             return attributes
 
         @staticmethod
